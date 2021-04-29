@@ -13,17 +13,18 @@ class CheckingAccount {
         balance = initialBalance;
     }
 
-    public synchronized int withdraw(int amount) {
-        if (amount <= balance) {
-            try {
-                Thread.sleep((int) (Math.random() * 200));
-            } catch (InterruptedException ie) {
+    public int withdraw(int amount) {
+        synchronized (this) {
+            if (amount <= balance) {
+                try {
+                    Thread.sleep((int) (Math.random() * 200));
+                } catch (InterruptedException ie) {
 
+                }
+
+                balance -= amount;
             }
-
-            balance -= amount;
         }
-
         return balance;
     }
 }
@@ -46,6 +47,8 @@ class AccountHolder implements Runnable {
 
     }
 }
+
+
 
 
 public class Main {
